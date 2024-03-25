@@ -1,6 +1,6 @@
 import { FaSearch } from "react-icons/fa";
 import logo from "../images/logo.png"
-
+import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
     <>
@@ -19,7 +19,9 @@ const Navbar = () => {
             <FaSearch />
             <input type="text" name="" id="" placeholder="Search Your Recipe" className="focus:outline-none text-sm h-6" />
         </div>
+        <Link to="/addrecipe">
         <button className="cursor-pointer bg-[#FFBC3B] h-8 w-32 rounded"> + Add Recipe</button>
+        </Link>
       </nav>
     </> 
   )
