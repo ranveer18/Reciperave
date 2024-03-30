@@ -1,12 +1,12 @@
-// import Form from "../Components/Form"
-import Navbar from "../Components/Navbar"
-import Footer from "../Components/Footer"
+// import Navbar from "../Components/Navbar"
+// import Footer from "../Components/Footer"
+import Loginform from "../Components/Loginform"
 const Login = () => {
   return (
     <>
-    <Navbar/>
-      {/* <Form/> */}
-      <Footer/>
+    {/* <Navbar/> */}
+    <Loginform/>
+    {/* <Footer/> */}
     </>
   )
 }
