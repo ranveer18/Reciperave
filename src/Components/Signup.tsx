@@ -33,7 +33,7 @@ const Signup = () => {
                     </div>
                 </div>
                 <div className='right bg-yellow-200 h-full w-full'>
-                    <img src={loginPhoto} alt="" />
+                    <img src={loginPhoto} alt=""  className="h-full w-full"/>
                 </div>
             </div>
         </>

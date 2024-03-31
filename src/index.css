@@ -16,9 +16,10 @@
   --secondary-color-3: #9FB3B3;
   --secondary-color-4: #CDD7D9;
 
-  /* Font */
+  --hilight-color: #633d2d
+    /* Font */
 
-  --H1-semi-bold: 58px;
+    --H1-semi-bold: 58px;
   --H2-semi-bold: 40px;
 
   /*  */
