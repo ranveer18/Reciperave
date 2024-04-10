@@ -4,6 +4,7 @@ import Login from "./Pages/Login";
 import Signup from "./Components/Signup";
 import Confirm from "./Components/Confirm";
 import Contentinfo from "./Pages/Contentinfo";
+// import Test from "./Components/DynamicInputFields";
 Addrecipe
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -11,16 +12,16 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 const App = () => {
   return (
     <>
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/addrecipe" element={<Addrecipe/>}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/Signup" element={<Signup/>}/>
-        <Route path="/:id" element={<Contentinfo/>}/>
-        <Route path="/Confirm" element={<Confirm/>}/>
-      </Routes>
-    </Router>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/addrecipe" element={<Addrecipe />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/Signup" element={<Signup />} />
+          <Route path="/:id" element={<Contentinfo />} />
+          <Route path="/Confirm" element={<Confirm />} />
+        </Routes>
+      </Router>
     </>
   )
 }
