@@ -1,24 +1,31 @@
 import { FaSearch } from "react-icons/fa";
 import logo from "../images/logo.png"
 import { Link } from "react-router-dom";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { IoClose } from "react-icons/io5";
+
 const Navbar = () => {
     const navRef = useRef<HTMLDivElement>(null);
-
+    const [toggle, setToggle] = useState(false)
     useEffect(() => {
+        console.log(window.innerWidth);
+
         window.addEventListener("scroll", (e) => {
-            if (window.scrollY > 50) {
-                if (navRef.current) {
-                    navRef.current.style.height = "70px";
-                    navRef.current.style.background = "#fbfaf4";
-                    navRef.current.style.boxShadow = "0px 5px 10px #33333333";
+            if (window.innerWidth > 768) {
+                if (window.scrollY > 50) {
+                    if (navRef.current) {
+                        navRef.current.style.height = "auto";
+                        navRef.current.style.background = "#fbfaf4";
+                        navRef.current.style.boxShadow = "0px 5px 10px #33333333";
+                    }
                 }
-            }
-            else {
-                if (navRef.current) {
-                    navRef.current.style.height = "70px";
-                    navRef.current.style.background = "inherit";
-                    navRef.current.style.boxShadow = "0 0 0 #fff";
+                else {
+                    if (navRef.current) {
+                        navRef.current.style.height = "auto";
+                        navRef.current.style.background = "inherit";
+                        navRef.current.style.boxShadow = "0 0 0 #fff";
+                    }
                 }
             }
         })
@@ -26,11 +33,15 @@ const Navbar = () => {
     return (
         <>
             {/* fbfaf4 */}
-            <nav className="navbar flex py-3 fixed w-full h-16 " ref={navRef}>
+            <div className="flex absolute z-20 justify-end right-8 top-4 min-[786px]:hidden">
+                {toggle ? <IoClose className="h-10 w-8" onClick={() => setToggle(!toggle)} /> : <GiHamburgerMenu className="h-10 w-8" onClick={() => setToggle(!toggle)} />}
+            </div>
+
+            <nav className={toggle ? "navbar" : "flex flex-row items-center justify-evenly py-3 fixed w-full h-16 z-10 max-[786px]:flex-col max-[786px]:hidden"} ref={navRef}>
                 <div className="logo cursor-pointer">
                     <img src={logo} alt="" className="h-16" />
                 </div>
-                <ul className="flex gap-7 cursor-pointer">
+                <ul className={toggle ? "navbar-ul" : "flex gap-7 cursor-pointer"}>
                     <li>
                         <Link to="/">
                             Recipie
@@ -43,7 +54,7 @@ const Navbar = () => {
                 </ul>
                 <div className="search border-2 rounded flex items-center gap-4 px-2 py-1">
                     <FaSearch />
-                    <input type="text" name="" id="" placeholder="Search Your Recipe" className="focus:outline-none text-sm h-6" />
+                    <input type="text" name="" id="" placeholder="Search Your Recipe" className="focus:outline-none text-sm h-6 bg-inherit" />
                 </div>
                 <Link to="/login">
                     <button className="cursor-pointer bg-[#FFBC3B] h-8 w-32 rounded"> + Add Recipe</button>
