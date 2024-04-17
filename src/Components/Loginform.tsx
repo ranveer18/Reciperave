@@ -20,7 +20,7 @@ const Loginform = () => {
                 <div className='flex h-full w-full bg-[#fbfaf4] items-center justify-center text-[#03383F] max-[500px]:bg-none '>
                     <form className="bg-[#fff] w-10/12 h-auto rounded flex flex-col items-center justify-center p-16 max-[500px]:p-5 max-[500px]:w-11/12 max-[768px]:px-6  max-[768px]:py-10 z-10 " action="" method="post" onSubmit={handleSubmit}>
                         <h1 className="text-4xl font-bold tracking-wider">Welcome back</h1>
-                        <h4>Don't have an account? <Link to="/signup"><span className="text-[#F9972F] cursor-pointer">Sign up</span></Link></h4>
+                        <h4>Don't have an account? <Link to="/Reciperave/signup"><span className="text-[#F9972F] cursor-pointer">Sign up</span></Link></h4>
 
                         <div className="w-3/4 flex flex-col items-center gap-1 mt-5 max-[768px]:w-full">
                             <label htmlFor="email" className="flex place-self-start">Email address <span className="text-red-700"> *</span></label>

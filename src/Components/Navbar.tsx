@@ -43,7 +43,7 @@ const Navbar = () => {
                 </div>
                 <ul className={toggle ? "navbar-ul" : "flex gap-7 cursor-pointer"}>
                     <li>
-                        <Link to="/">
+                        <Link to="/Reciperave">
                             Recipie
                         </Link>
                     </li>
@@ -56,7 +56,7 @@ const Navbar = () => {
                     <FaSearch />
                     <input type="text" name="" id="" placeholder="Search Your Recipe" className="focus:outline-none text-sm h-6 bg-inherit" />
                 </div>
-                <Link to="/login">
+                <Link to="/Reciperave/login">
                     <button className="cursor-pointer bg-[#FFBC3B] h-8 w-32 rounded"> + Add Recipe</button>
                 </Link>
             </nav>

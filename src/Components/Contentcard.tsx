@@ -10,7 +10,7 @@ const Contentcard = () => {
       <div className="flex flex-row gap-x-40 gap-y-20 my-16 flex-wrap justify-center items-center">
         <div className="w-96 h-auto flex justify-center items-center flex-col">
           <div className="image-container w-96 h-96 rounded bg-[#FDF2cc] flex justify-center items-center hover:rounded-3xl max-[500px]:w-72 max-[786px]:h-72">
-            <Link to="/id">
+            <Link to="/Reciperave/id">
               <img src={cardphoto} alt="" className="w-96 h-96 rounded max-[500px]:w-72 max-[786px]:h-72" />
             </Link>
           </div>
@@ -27,7 +27,7 @@ const Contentcard = () => {
         {/*  */}
         <div className="w-96 h-auto flex justify-center items-center flex-col">
           <div className="image-container w-96 h-96 rounded bg-[#FDF2cc] flex justify-center items-center hover:rounded-3xl max-[500px]:w-72 max-[786px]:h-72">
-            <Link to="/id">
+            <Link to="/Reciperave/id">
               <img src={cardphoto} alt="" className="w-96 h-96 rounded max-[500px]:w-72 max-[786px]:h-72" />
             </Link>          </div>
           <div className="card-info text-[#03383F] flex gap-2 flex-col max-[500px]:w-72">
@@ -42,7 +42,7 @@ const Contentcard = () => {
         </div>
         <div className="w-96 h-auto flex justify-center items-center flex-col">
           <div className="image-container w-96 h-96 rounded bg-[#FDF2cc] flex justify-center items-center hover:rounded-3xl max-[500px]:w-72 max-[786px]:h-72">
-            <Link to="/id">
+            <Link to="/Reciperave/id">
               <img src={cardphoto} alt="" className="w-96 h-96 rounded max-[500px]:w-72 max-[786px]:h-72" />
             </Link>          </div>
           <div className="card-info text-[#03383F] flex gap-2 flex-col max-[500px]:w-72">
@@ -57,7 +57,7 @@ const Contentcard = () => {
         </div>
         <div className="w-96 h-auto flex justify-center items-center flex-col">
           <div className="image-container w-96 h-96 rounded bg-[#FDF2cc] flex justify-center items-center hover:rounded-3xl max-[500px]:w-72 max-[786px]:h-72">
-            <Link to="/id">
+            <Link to="/Reciperave/id">
               <img src={cardphoto} alt="" className="w-96 h-96 rounded max-[500px]:w-72 max-[786px]:h-72" />
             </Link>          </div>
           <div className="card-info text-[#03383F] flex gap-2 flex-col max-[500px]:w-72">
