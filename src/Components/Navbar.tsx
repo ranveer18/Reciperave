@@ -11,7 +11,7 @@ const Navbar = () => {
     useEffect(() => {
         console.log(window.innerWidth);
 
-        window.addEventListener("scroll", (e) => {
+        window.addEventListener("scroll", () => {
             if (window.innerWidth > 768) {
                 if (window.scrollY > 50) {
                     if (navRef.current) {

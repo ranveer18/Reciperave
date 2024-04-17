@@ -11,7 +11,7 @@ const Signup = () => {
         setInputs((prev) => ({ ...prev, [name]: value }));
         setisChecked(checked)
     }
-    const handleSubmit = (event: any) => {
+    const handleSubmit = () => {
         alert(`Registed`);
         navigate("/")
     };
