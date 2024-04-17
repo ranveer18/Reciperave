@@ -12,7 +12,7 @@ const Loginform = () => {
 
     const handleSubmit = (event: any) => {
         alert(`Welcome Back ${event.target[0].value}`);
-        navigate("/addrecipe")
+        navigate("/Reciperave/addrecipe")
     };
     return (
         <>
