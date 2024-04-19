@@ -1,12 +1,16 @@
 require("dotenv").config();
-const express = require("express");
-const app = express();
-import { Request, Response } from 'express';
+// src/app.ts
+
+import express from 'express';
+import authRoutes from './routes/authRoutes';
 const connectDB = require("./db/conn");
 
-app.use("/", ( req:Request,res:Response) => {
-  res.send("reciperave");
-});
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(express.json());
+app.use('/api/v1', authRoutes);
 
 const port = process.env.PORT || 5000;
 const start = async () => {
@@ -21,3 +25,4 @@ const start = async () => {
 };
 
 start();
+
