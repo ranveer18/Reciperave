@@ -1,31 +1,86 @@
 import { useState } from 'react';
 import { IoMdCloseCircle } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
-const Form = () => {
-    interface DynamicComponent {
-        id: number;
-        name: string;
-    }
+import axios from 'axios';
 
-    const [dynamicComponents, setDynamicComponents] = useState<DynamicComponent[]>([{ id: 0, name: 'Component 1' }]);
+const Form: React.FC = () => {
+    const [formData, setFormData] = useState({
+        title: '',
+        desc: '',
+        serve: '',
+        preprationtimeHRS: '',
+        preprationtimeMINS: '',
+        cooktimeMINS: '',
+        cooktimeHRS: '',
+        recipetag: '',
+        ingredients: [{ qty: '', measurement: '', ingredientsItem: '' }],
+        instructions: [{ step: '' }],
+    });
 
-    const handleAddComponent = () => {
-        setDynamicComponents([...dynamicComponents, { id: dynamicComponents.length, name: `Component ${dynamicComponents.length + 1}` }]);
+
+
+    // :any
+    const handleChange = (
+        index: number,
+        field: keyof typeof formData['ingredients'][0] | keyof typeof formData['instructions'][0] | keyof typeof formData,
+        value: string
+    ) => {
+        setFormData((prevState: any) => {
+            const newState = { ...prevState };
+
+            if (field === 'qty' || field === 'measurement' || field === 'ingredientsItem') {
+                newState.ingredients[index][field] = value;
+            } else if (field === 'step') {
+                newState.instructions[index][field] = value;
+            } else {
+                newState[field] = value;
+            }
+
+            return newState;
+        });
     };
 
-    const handleRemoveComponent = (id: number) => {
-        const updatedComponents = dynamicComponents.filter(component => component.id !== id);
-        setDynamicComponents(updatedComponents);
+    const handleAddIngredient = () => {
+        setFormData((prevState: any) => ({
+            ...prevState,
+            ingredients: [...prevState.ingredients, { qty: '', measurement: '', ingredientsItem: '' }],
+        }));
+    };
+
+    const handleAddInstruction = () => {
+        setFormData((prevState: any) => ({
+            ...prevState,
+            instructions: [...prevState.instructions, { step: '' }],
+        }));
     };
 
 
-    const [inputs, setInputs] = useState<{ [key: string]: string }>({})
+    const handleRemoveIngredient = (index: number) => {
+        setFormData((prevState: any) => {
+            const updatedIngredients = [...prevState.ingredients];
+            updatedIngredients.splice(index, 1);
+            return { ...prevState, ingredients: updatedIngredients };
+        });
+    };
 
-    const handleChange = (event: any) => {
-        const name = event.target.name;
-        const value = event.target.value;
-        setInputs((prev) => ({ ...prev, [name]: value }))
-    }
+    const handleRemoveInstruction = (index: number) => {
+        setFormData((prevState: any) => {
+            const updatedInstructions = [...prevState.instructions];
+            updatedInstructions.splice(index, 1);
+            return { ...prevState, instructions: updatedInstructions };
+        });
+    };
+
+    const apiUrl = 'http://localhost:5050/api/v1';
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(`${apiUrl}/addrecipe`, formData);
+            console.log('Recipe created:', response.data);
+        } catch (error) {
+            console.error('Error creating recipe:', error);
+        }
+    };
     return (
         <>
             <div className="flex flex-col w-full items-center px-20 py-10 tracking-wider bg-[#fbfaf4] text-[#03383F] pt-32 max-[500px]:px-0">
@@ -33,19 +88,18 @@ const Form = () => {
                     <h1 className="font-bold text-2xl text-[#03383F] ">Add a New Recipe</h1>
                     <div className="h-1 w-20 bg-[rgb(3,56,63)] flex"></div>
                 </div>
-                <form className="flex w-3/4 flex-col bg-[#FFF] gap-5 items-center justify-center max-[500px]:w-11/12 max-[500px]:p-2 max-[786px]:w-11/12">
+                <form onSubmit={handleSubmit} className="flex w-3/4 flex-col bg-[#FFF] gap-5 items-center justify-center max-[500px]:w-11/12 max-[500px]:p-2 max-[786px]:w-11/12">
                     <div className="flex items-end justify-center flex-col w-full gap-5">
                         <div className="flex flex-col gap-5 w-10/12 max-[500px]:w-full">
                             <div className="h-px w-10/12 bg-[#03383F] flex my-5 max-[500px]:w-11/12"></div>
                             <input type="text" className="h-12 w-10/12 bg-[#f6f6f6] outline-none p-5 text-[#03383F] text-sm placeholder:text-xs max-[500px]:w-full" required placeholder="Recipe Title *"
-                                name="recipetitle"
-                                value={inputs.recipetitle || ''}
-                                onChange={handleChange}
+                                name="title"
+                                value={formData.title}
+                                onChange={e => handleChange(0, 'title', e.target.value)}
                             />
                             <textarea className="h-24 w-10/12 bg-[#f6f6f6] resize-none outline-none px-5 py-2 text-sm placeholder:text-xs max-[500px]:w-full" placeholder="Recipe Description"
                                 name="Recipedescription"
-                                value={inputs.Recipedescription || ''}
-                                onChange={handleChange}
+                                value={formData.desc} onChange={e => handleChange(0, 'desc', e.target.value)}
                             ></textarea>
                         </div>
                         <div className="w-10/12 flex gap-y-3 flex-col max-[500px]:w-full">
@@ -53,34 +107,31 @@ const Form = () => {
                                 <span className="text-xs w-32">This recipe: <span>serves</span></span>
                                 <input type="text" className="h-8 w-24 bg-[#f6f6f6] outline-none p-4 text-[#03383F] text-sm placeholder:text-xs" placeholder="Size *"
                                     name="servesize"
-                                    value={inputs.servesize}
-                                    onChange={handleChange || ''}
+                                    value={formData.serve} onChange={e => handleChange(0, 'serve', e.target.value)}
                                 />
                             </div>
                             <div className="flex justify-start items-center gap-10 max-[500px]:w-full max-[500px]:gap-4">
                                 <span className="text-xs w-32">Prepration time:</span>
                                 <input type="text" className="h-8 w-24 bg-[#f6f6f6] outline-none p-4 text-[#03383F] text-sm placeholder:text-xs" placeholder="Hrs *"
                                     name="preprationtimeHRS"
-                                    value={inputs.preprationtimeHRS}
-                                    onChange={handleChange || ''}
+                                    value={formData.preprationtimeHRS} onChange={e => handleChange(0, 'preprationtimeHRS', e.target.value)}
                                 />
                                 <input type="text" className="h-8 w-24 bg-[#f6f6f6] outline-none p-4 text-[#03383F] text-sm placeholder:text-xs" placeholder="Mins *"
                                     name="preprationtimeMINS"
-                                    value={inputs.preprationtimeMINS}
-                                    onChange={handleChange || ''}
+                                    value={formData.preprationtimeMINS} onChange={e => handleChange(0, 'preprationtimeMINS', e.target.value)}
                                 />
                             </div>
                             <div className="flex justify-start items-center gap-10 max-[500px]:gap-4">
                                 <span className="text-xs w-32">Cook time:</span>
                                 <input type="text" className="h-8 w-24 bg-[#f6f6f6] outline-none p-4 text-[#03383F] text-sm placeholder:text-xs" placeholder="Hrs *"
                                     name="cooktimeHRS"
-                                    value={inputs.cooktimeHRS}
-                                    onChange={handleChange || ''}
+                                    value={formData.cooktimeHRS} onChange={e => handleChange(0, 'cooktimeHRS', e.target.value)}
+
                                 />
                                 <input type="text" className="h-8 w-24 bg-[#f6f6f6] outline-none p-4 text-[#03383F] text-sm placeholder:text-xs" placeholder="Mins *"
                                     name="cooktimeMINS"
-                                    value={inputs.cooktimeMINS}
-                                    onChange={handleChange || ''}
+                                    value={formData.cooktimeMINS} onChange={e => handleChange(0, 'cooktimeMINS', e.target.value)}
+
                                 />
                             </div>
                         </div>
@@ -95,65 +146,54 @@ const Form = () => {
                                 <span className="h-6 w-24 bg-[#f6f6f6] outline-none p-4 text-[#03383F] text-xs font-bold flex items-center justify-center">Hard</span>
                             </div>
                             <p className="text-xs">List your ingredients one at a time*</p>
-                            {dynamicComponents.map(component => (
+                            {formData.ingredients.map((ingredient, index) => (
 
-                                <div className=" flex flex-row gap-5 items-center max-[500px]:gap-3">
+                                <div className=" flex flex-row gap-5 items-center max-[500px]:gap-3" key={index}>
                                     <input type="text" className="h-8 w-16 bg-[#f6f6f6] outline-none p-4 text-[#03383F] text-sm placeholder:text-xs rounded " placeholder="Qty"
-                                        name={`ingredientsQTY${component.id}`}
-                                        value={inputs.ingredientsQTY}
-                                        onChange={handleChange || ''}
-
+                                        name={`ingredientsQTY`}
+                                        value={ingredient.qty} onChange={(e) => handleChange(index, 'qty', e.target.value)}
                                     />
-
-
-                                    {/* <input type="text" className="h-8 w-24 bg-[#f6f6f6] outline-none p-5 text-[#03383F] text-sm placeholder:text-xs" placeholder="Hrs *" /> */}
                                     <div className="relative">
                                         <label htmlFor="measurement" className="text-[#03383F] text-[8px] block absolute left-1 -top-1.5">Measurements</label>
-                                        <select name={"measurement" + component.id} id="measurement" className="h-8 w-24 bg-[#f6f6f6] outline-none text-[#03383F] text-xs rounded max-[500px]:w-20"
-                                            value={inputs.measurement}
-                                            onChange={handleChange || ''}
-                                        >
+                                        <select name="measurement" id="measurement" className="h-8 w-24 bg-[#f6f6f6] outline-none text-[#03383F] text-xs rounded max-[500px]:w-20"
+                                            value={ingredient.measurement} onChange={(e) => handleChange(index, 'measurement', e.target.value)}                                            >
                                             <option value=""></option>
                                             <option value="Cup">Cup</option>
                                             <option value="Spoon">Spoon</option>
                                         </select>
                                     </div>
                                     <input type="text" className="h-8 w-30 bg-[#f6f6f6] outline-none p-4 text-[#03383F] text-sm placeholder:text-xs max-[500px]:w-36" placeholder="Item"
-                                        name={"ingredientsItem" + component.id}
-                                        value={inputs.ingredientsItem}
-                                        onChange={handleChange || ''}
-                                    />
-                                    <IoMdCloseCircle className="text-[#CDD7D9]" onClick={() => handleRemoveComponent(component.id)} />
+                                        name="ingredientsItem"
+                                        value={ingredient.ingredientsItem} onChange={(e) => handleChange(index, 'ingredientsItem', e.target.value)} />
+                                    <IoMdCloseCircle className="text-[#CDD7D9]" onClick={() => handleRemoveIngredient(index)} />
                                 </div>
 
                             ))}
 
-                            <button className="text-[10px] flex justify-start" onClick={handleAddComponent}>+ Add another ingredients</button>
+                            <div className="text-[10px] flex justify-start" onClick={handleAddIngredient}>+ Add another ingredients</div>
                             <div className="flex gap-1 flex-col">
                                 <div className=" flex flex-col gap-3">
                                     <p className="text-xs">Add your instruction at a time*</p>
-                                    {dynamicComponents.map(component => (
-                                        <div className='flex items-center justify-start gap-2'>
+                                    {formData.instructions.map((instruction, index) => (
+                                        <div className='flex items-center justify-start gap-2' key={index}  >
                                             <textarea className="w-10/12 h-20 bg-[#f6f6f6] resize-none outline-none px-4 py-2 text-sm placeholder:text-xs max-[500px]:w-full" placeholder="Step 1"
-
-                                                name={`instructionSTEP${component.id}`}
-                                                value={inputs.instructionSTEP1}
-                                                onChange={handleChange || ''}
+                                                value={instruction.step} onChange={(e) => handleChange(index, 'step', e.target.value)}
                                             ></textarea>
-                                            <IoMdCloseCircle className="text-[#CDD7D9]" onClick={() => handleRemoveComponent(component.id)} />
+                                            <IoMdCloseCircle className="text-[#CDD7D9]" onClick={() => handleRemoveInstruction(index)} />
                                         </div>
                                     ))}
 
                                 </div>
-                                <button className="text-[10px] flex justify-start" onClick={handleAddComponent}>+ Add another ingredients</button>
+                                <div className="text-[10px] flex justify-start" onClick={handleAddInstruction}>+ Add another instructions   </div>
                             </div>
                             <div className="flex flex-col gap-3">
                                 <p className="text-xs">Tag Your Recipe as*</p>
                                 <div className="h-10 w-10/12 pr-2 bg-[#f6f6f6] flex flex-row items-center justify-between max-[500px]:w-11/12">
                                     <input type="text" className="h-10 w-full bg-[#f6f6f6] outline-none p-4 text-[#03383F] text-sm placeholder:text-xs rounded " required placeholder="Meal Type*"
                                         name="recipetag"
-                                        value={inputs.recipetag}
-                                        onChange={handleChange || ''}
+                                        value={formData.recipetag}
+                                        onChange={e => handleChange(0, 'recipetag', e.target.value)}
+
                                     />
                                     <IoMdAdd />
                                 </div>

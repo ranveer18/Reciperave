@@ -9,8 +9,6 @@ const Navbar = () => {
     const navRef = useRef<HTMLDivElement>(null);
     const [toggle, setToggle] = useState(false)
     useEffect(() => {
-        console.log(window.innerWidth);
-
         window.addEventListener("scroll", () => {
             if (window.innerWidth > 768) {
                 if (window.scrollY > 50) {

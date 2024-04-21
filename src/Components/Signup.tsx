@@ -11,16 +11,34 @@ const Signup = () => {
         setInputs((prev) => ({ ...prev, [name]: value }));
         setisChecked(checked)
     }
-    const handleSubmit = () => {
-        alert(`Registed`);
-        navigate("/")
+    const apiUrl = 'http://localhost:5050/api/v1';
+
+    const handleRegister = async (event: any): Promise<void> => {
+        event.preventDefault()
+        try {
+            const response = await fetch(`${apiUrl}/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(inputs),
+            });
+            if (response.ok) {
+                console.log('Registration successful');
+                navigate("/Reciperave/login")
+            } else {
+                console.error('Registration failed:', await response.text());
+            }
+        } catch (error) {
+            console.error('Error during registration:', error);
+        }
     };
 
     return (
         <>
             <div className='flex h-screen'>
                 <div className='flex h-full w-full bg-[#fbfaf4] items-center justify-center text-[#03383F]'>
-                    <form className="bg-[#fff] w-10/12 h-auto rounded flex flex-col items-center justify-center p-16 max-[500px]:p-5 max-[500px]:w-11/12 max-[768px]:px-6  max-[768px]:py-10 z-10" action="" method="post" onSubmit={handleSubmit}>
+                    <form className="bg-[#fff] w-10/12 h-auto rounded flex flex-col items-center justify-center p-16 max-[500px]:p-5 max-[500px]:w-11/12 max-[768px]:px-6  max-[768px]:py-10 z-10" action="" method="post" onSubmit={handleRegister}>
                         <h1 className="text-3xl font-bold tracking-wider">Create your account</h1>
 
                         <h4 className="text-xm">Already have an account? <Link to="/Reciperave/login"><span className="text-[#F9972F] cursor-pointer">Sign In</span></Link></h4>
@@ -53,7 +71,6 @@ const Signup = () => {
                         </div>
 
                         <div className="w-3/4">
-
                             <button type="submit" className="h-10 w-full bg-[#FFBC3B] outline-none  text-[#03383F] font-bold placeholder:text-xs rounded my-5" >Sign Up</button>
                         </div>
                     </form>

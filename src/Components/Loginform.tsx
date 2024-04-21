@@ -9,16 +9,34 @@ const Loginform = () => {
         const value = event.target.value;
         setInputs((values) => ({ ...values, [name]: value }));
     }
+    const apiUrl = 'http://localhost:5050/api/v1';
 
-    const handleSubmit = (event: any) => {
-        alert(`Welcome Back ${event.target[0].value}`);
-        navigate("/Reciperave/addrecipe")
+    const handleLogin = async (event: any): Promise<void> => {
+        event.preventDefault()
+
+        try {
+            const response = await fetch(`${apiUrl}/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(inputs),
+            });
+            if (response.ok) {
+                console.log('Login successful');
+                navigate("/Reciperave/addrecipe")
+            } else {
+                console.error('Login failed:', await response.text());
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+        }
     };
     return (
         <>
             <div className='flex h-screen'>
                 <div className='flex h-full w-full bg-[#fbfaf4] items-center justify-center text-[#03383F] max-[500px]:bg-none '>
-                    <form className="bg-[#fff] w-10/12 h-auto rounded flex flex-col items-center justify-center p-16 max-[500px]:p-5 max-[500px]:w-11/12 max-[768px]:px-6  max-[768px]:py-10 z-10 " action="" method="post" onSubmit={handleSubmit}>
+                    <form className="bg-[#fff] w-10/12 h-auto rounded flex flex-col items-center justify-center p-16 max-[500px]:p-5 max-[500px]:w-11/12 max-[768px]:px-6  max-[768px]:py-10 z-10 " action="" method="post" onSubmit={handleLogin}>
                         <h1 className="text-4xl font-bold tracking-wider">Welcome back</h1>
                         <h4>Don't have an account? <Link to="/Reciperave/signup"><span className="text-[#F9972F] cursor-pointer">Sign up</span></Link></h4>
 
