@@ -11,5 +11,25 @@ export const saveRecipeData =  async (req: Request, res: Response) => {
         res.status(400).json({ error: error.message });
     }
 };
+export const getAllRecipe=async (req: Request, res: Response) => {
+  try {
+    
+    const recipes = await RecipeDataModel.find();
+    res.status(200).json(recipes);
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
-
+export const getRecipeById =  async (req: Request, res: Response) => {
+  try {
+    const recipe = await RecipeDataModel.findById(req.params.id);
+    if (!recipe) {
+      return res.status(404).json({ error: 'Recipe not found' });
+    }
+    res.json(recipe);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

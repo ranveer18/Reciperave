@@ -17,9 +17,6 @@ const Form: React.FC = () => {
         instructions: [{ step: '' }],
     });
 
-
-
-    // :any
     const handleChange = (
         index: number,
         field: keyof typeof formData['ingredients'][0] | keyof typeof formData['instructions'][0] | keyof typeof formData,
@@ -157,9 +154,21 @@ const Form: React.FC = () => {
                                         <label htmlFor="measurement" className="text-[#03383F] text-[8px] block absolute left-1 -top-1.5">Measurements</label>
                                         <select name="measurement" id="measurement" className="h-8 w-24 bg-[#f6f6f6] outline-none text-[#03383F] text-xs rounded max-[500px]:w-20"
                                             value={ingredient.measurement} onChange={(e) => handleChange(index, 'measurement', e.target.value)}                                            >
-                                            <option value=""></option>
-                                            <option value="Cup">Cup</option>
-                                            <option value="Spoon">Spoon</option>
+                                            <option value="">Select...</option>
+                                            <option value="ml">ml</option>
+                                            <option value="l">l</option>
+                                            <option value="Teaspoons(tsp)">Teaspoons (tsp)</option>
+                                            <option value="Tablespoons(tbsp)">Tablespoons (tbsp)</option>
+                                            <option value="cup">Cups</option>
+                                            <option value="mg">mg</option>
+                                            <option value="g">g</option>
+                                            <option value="kg">kg</option>
+                                            <option value="pcs">Pieces(pcs)</option>
+                                            <option value="slices">Slices</option>
+                                            <option value="cloves">Cloves</option>
+                                            <option value="bunches">Bunches</option>
+                                            <option value="packages">Packages</option>
+                                            <option value="packets">Packets</option>
                                         </select>
                                     </div>
                                     <input type="text" className="h-8 w-30 bg-[#f6f6f6] outline-none p-4 text-[#03383F] text-sm placeholder:text-xs max-[500px]:w-36" placeholder="Item"
