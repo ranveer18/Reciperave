@@ -1,6 +1,8 @@
 import { useState } from "react"
 import loginPhoto from "../images/login.jpg"
 import { Link, useNavigate } from "react-router-dom"
+import Cookies from 'js-cookie';
+
 const Loginform = () => {
     const navigate = useNavigate();
     const [inputs, setInputs] = useState({ email: "", password: "" });
@@ -21,6 +23,7 @@ const Loginform = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(inputs),
+                credentials: 'include',
             });
             if (response.ok) {
                 console.log('Login successful');

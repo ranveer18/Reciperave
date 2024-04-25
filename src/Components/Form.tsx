@@ -50,8 +50,6 @@ const Form: React.FC = () => {
             instructions: [...prevState.instructions, { step: '' }],
         }));
     };
-
-
     const handleRemoveIngredient = (index: number) => {
         setFormData((prevState: any) => {
             const updatedIngredients = [...prevState.ingredients];

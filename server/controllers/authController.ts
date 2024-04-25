@@ -1,39 +1,54 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+const crypto = require("crypto");
 import User, { IUser } from '../models/User';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'secret';
 
-export const register = async (req: Request, res: Response): Promise<void> => {
+export const register = async (req: Request, res: any) => {
   try {
-    const { name,email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ name,email, password: hashedPassword });
-    await user.save();
-    res.status(201).json({ message: 'User registered successfully' });
+    const { name, email, password } = req.body;
+    const userExit = await User.findOne({
+      email: email,
+    });
+    if (userExit) {
+      return res.status(422).json({ error: "Email already exit" });
+    }
+    else {
+      const verificationToken = crypto.randomBytes(40).toString("hex");
+      const user = new User({ name, email, password, verificationToken });
+      await user.save();
+      res.status(201).json({ message: 'User registered successfully' });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });
   }
 };
 
-export const login = async (req: Request, res: Response): Promise<void> => {
+export const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (!user) {
-      res.status(401).json({ message: 'Invalid email or password' });
-      return;
+   const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ error: "Enter valid data" });
+  }
+    const userLogin = await User.findOne({ email: email });
+    
+    if (userLogin) {
+    const isMatch = await bcrypt.compare(password, userLogin.password);
+    const token = await userLogin.generateAuthToken();
+    res.cookie('jwtToken', token, {httpOnly: false, maxAge: 3600000 });
+  
+  if (!isMatch) {
+      res.status(400).json({ error: "Invalid creditial" });
+    } else {
+      res.status(201).json({ message: "Login successfully" });
     }
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      res.status(401).json({ message: 'Invalid email or password' });
-      return;
-    }
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
-    res.status(200).json({ message: 'Login successful', token });
-  } catch (error) {
+  }
+else{
+    res.status(400).json({ error: "Invalid creditial" });
+  }  } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });
   }
