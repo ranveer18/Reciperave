@@ -60,7 +60,6 @@ const Singlerecipe = () => {
         }));
     };
 
-
     const Componentref = useRef<any>();
     const handlePrint = useReactToPrint({
         content: () => Componentref.current,

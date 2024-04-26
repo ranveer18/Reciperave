@@ -1,10 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IoMdCloseCircle } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const Form: React.FC = () => {
+
+const Form: React.FC<{ name: string; email: string; id: string }> = ({ name, email, id }) => {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
+        userName: name,
+        userEmail: email,
+        userId: id,
         title: '',
         desc: '',
         serve: '',
@@ -12,10 +19,18 @@ const Form: React.FC = () => {
         preprationtimeMINS: '',
         cooktimeMINS: '',
         cooktimeHRS: '',
-        recipetag: '',
+        tag: '',
         ingredients: [{ qty: '', measurement: '', ingredientsItem: '' }],
         instructions: [{ step: '' }],
     });
+    useEffect(() => {
+        setFormData(prevState => ({
+            ...prevState,
+            userName: name,
+            userEmail: email,
+            userId: id
+        }));
+    }, [name, email, id]);
 
     const handleChange = (
         index: number,
@@ -71,6 +86,7 @@ const Form: React.FC = () => {
         e.preventDefault();
         try {
             const response = await axios.post(`${apiUrl}/addrecipe`, formData);
+            navigate("/Reciperave/Confirm")
             console.log('Recipe created:', response.data);
         } catch (error) {
             console.error('Error creating recipe:', error);
@@ -197,9 +213,9 @@ const Form: React.FC = () => {
                                 <p className="text-xs">Tag Your Recipe as*</p>
                                 <div className="h-10 w-10/12 pr-2 bg-[#f6f6f6] flex flex-row items-center justify-between max-[500px]:w-11/12">
                                     <input type="text" className="h-10 w-full bg-[#f6f6f6] outline-none p-4 text-[#03383F] text-sm placeholder:text-xs rounded " required placeholder="Meal Type*"
-                                        name="recipetag"
-                                        value={formData.recipetag}
-                                        onChange={e => handleChange(0, 'recipetag', e.target.value)}
+                                        name="tag"
+                                        value={formData.tag}
+                                        onChange={e => handleChange(0, 'tag', e.target.value)}
 
                                     />
                                     <IoMdAdd />
