@@ -55,9 +55,7 @@ export const deleteRecipeById = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    const recipe = await RecipeDataModel.findByIdAndDelete(id);
-    console.log(recipe);
-    
+    const recipe = await RecipeDataModel.findByIdAndDelete(id);    
 
     if (!recipe) {
       return res.status(404).json({ error: 'Recipe not found' });

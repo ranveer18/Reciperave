@@ -15,9 +15,9 @@ const UserPage: React.FC = () => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const [userData, setUserData] = useState<any>({})
+    const [recipeData, setRecipeData] = useState<any>({})
     const [singleuserData, setSingleUserData] = useState<any>([])
-    const [recipes, setRecipes] = useState<any>([]);
-
+    const [userid, setUserId] = useState<any>("");
 
     const user = {
         bio: 'A passionate cook who loves sharing recipes with the world!',
@@ -25,9 +25,37 @@ const UserPage: React.FC = () => {
 
     };
     useEffect(() => {
+        const checkLogin = async () => {
+            try {
+                const res = await fetch(`${apiUrl}/admin/`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: 'include',
+
+                });
+                const data = await res.json();
+
+                setUserData(data);
+                setUserId(data._id)
+
+            } catch (error) {
+                navigate("/Reciperave");
+                console.log(error);
+            }
+        }
+        checkLogin();
+    }, [])
+    useEffect(() => {
+        if (userid) {
+            verifyUser();
+        }
+    }, [userid]);
+    useEffect(() => {
         verifyUser();
     }, []);
-    const apiUrl = 'http://localhost:5050/api/v1/';
+    const apiUrl = 'http://localhost:5050/api/v1';
     const verifyUser = async () => {
         try {
             const ress = await fetch(`${apiUrl}/recipe/`, {
@@ -39,9 +67,11 @@ const UserPage: React.FC = () => {
 
             });
             const data = await ress.json();
-            const filteredData = data.filter((item: any) => item.userId === "6627f1220fe72cc0c1deb814");
-            setUserData(filteredData);
+
+            const filteredData = data.filter((item: any) => item.userId === userid)
+            setRecipeData(filteredData);
             setSingleUserData(filteredData[0])
+
 
             if (ress.status === 401 || !data) {
                 const error = new Error();
@@ -51,13 +81,13 @@ const UserPage: React.FC = () => {
             console.log(error);
         }
     };
-    console.log(singleuserData);
 
 
 
-    const handleEditRecipe = (recipeId: string) => {
+
+    const handleEditRecipe = (recipeId: string, name: string) => {
         console.log(`Editing recipe with ID: ${recipeId}`);
-        navigate(`/Reciperave/editrecipe/${recipeId}`)
+        navigate(`/Reciperave/${name}/editrecipe/${recipeId}`)
     };
     const deleteRecipe = async (id: any) => {
         try {
@@ -73,17 +103,17 @@ const UserPage: React.FC = () => {
         try {
             console.log(`delete recipe ${recipeId}`);
             await deleteRecipe(recipeId);
-            setUserData(userData.filter((recipe: any) => {
+            setRecipeData(recipeData.filter((recipe: any) => {
                 console.log(recipe._id)
                 return recipe._id !== recipeId
             }
 
-            )); // Remove deleted recipe from local state
+            ));
         } catch (error) {
             console.error(`Error deleting recipe with ID ${recipeId}:`, error);
         }
     };
-    // };
+
     const handleUploadProfilePicture = () => {
         if (selectedFile) {
             console.log('Uploading profile picture:', selectedFile);
@@ -128,9 +158,9 @@ const UserPage: React.FC = () => {
                         />
                     </div>
 
-                    <h1 className="text-2xl font-semibold mt-4">{singleuserData.userName}</h1>
-                    <p className="text-gray-600">{singleuserData.userEmail}</p>
-                    <p className="text-gray-600">Recipe: {userData.length}</p>
+                    <h1 className="text-2xl font-semibold mt-4">{userData.name}</h1>
+                    <p className="text-gray-600">{userData.email}</p>
+                    <p className="text-gray-600">Recipe: {recipeData.length}</p>
                 </div>
                 <div className="mt-8">
                     <h2 className="text-lg font-semibold">Bio</h2>
@@ -147,7 +177,7 @@ const UserPage: React.FC = () => {
                     <h2 className="text-lg font-semibold">Your Recipes</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4 ">
 
-                        {Array.isArray(userData) && userData.map((recipe: any) => (<div key={recipe._id} className="bg-[#FEF8E6] rounded-lg shadow-md p-4">
+                        {Array.isArray(recipeData) && recipeData.map((recipe: any) => (<div key={recipe._id} className="bg-[#FEF8E6] rounded-lg shadow-md p-4">
                             <img
                                 src={cardphoto}
                                 alt={recipe.title}
@@ -159,7 +189,7 @@ const UserPage: React.FC = () => {
                             <p className="text-gray-600">{recipe.desc}</p>
                             <div className="mt-4 flex justify-between">
                                 <button
-                                    onClick={() => handleEditRecipe(recipe._id)}
+                                    onClick={() => handleEditRecipe(recipe._id, singleuserData.userName)}
                                     className=" hover:bg-blue-500 hover:text-[#fff] border border-blue-500 font-bold h-8 w-20  rounded mr-2"
                                 >
                                     Edit

@@ -8,13 +8,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 const EditRecipe: React.FC = () => {
 
     const navigate = useNavigate();
+    const apiUrl = 'http://localhost:5050/api/v1';
     const id = useParams();
-
-    console.log(id.id);
-    const [recipe, setRecipe] = useState<any>({});
     const [loading, setloading] = useState(true)
     const [formData, setFormData] = useState({
-        title: recipe.title,
+        title: '',
         desc: '',
         serve: '',
         preprationtimeHRS: '',
@@ -29,29 +27,36 @@ const EditRecipe: React.FC = () => {
         setFormData(prevState => ({
             ...prevState,
         }));
+
     }, []);
-    // useEffect(() => {
-    //     fetchRecipe();
-    // }, []);
 
-    // const fetchRecipe = async () => {
-    //     try {
-    //         console.log(id);
+    useEffect(() => {
+        const verifyUser = async () => {
+            try {
+                const ress = await fetch(`${apiUrl}/admin`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: 'include',
 
-    //         const response = await fetch(`${apiUrl}/recipe/${id.id}`);
-
-    //         if (!response.ok) {
-    //             throw new Error('Failed to fetch recipe');
-    //         }
-    //         const data = await response.json();
-    //         setRecipe(data);
-    //         setloading(false)
+                });
+                const data = await ress.json();
+                console.log(data);
 
 
-    //     } catch (error) {
-    //         console.error('Error fetching recipe:', error);
-    //     }
-    // };
+                if (ress.status === 401 || !data) {
+                    const error = new Error();
+                    console.log(error);
+                }
+            } catch (error) {
+                navigate("/Reciperave");
+                console.log(error);
+            }
+        };
+        verifyUser();
+    }, [navigate])
+
     useEffect(() => {
         const fetchRecipe = async () => {
             try {
@@ -61,10 +66,6 @@ const EditRecipe: React.FC = () => {
                     throw new Error('Failed to fetch recipe');
                 }
                 const data = await response.json();
-                // console.log(fetchRecipe);
-                console.log(data);
-
-                // Update formData state with fetched recipe data
                 setFormData({
                     title: data.title,
                     desc: data.desc,
@@ -78,15 +79,27 @@ const EditRecipe: React.FC = () => {
                     instructions: data.instructions,
                 });
 
-                setRecipe(data);
                 setloading(false);
             } catch (error) {
                 console.error('Error fetching recipe:', error);
             }
         };
-
         fetchRecipe();
     }, [id]);
+
+    const updateUser = async (e: any) => {
+        e.preventDefault();
+        try {
+            const data = await axios.put(`${apiUrl}/updaterecipes/${id.id} `, formData);
+            console.log('Recipe updated:', data.data);
+
+            alert(`Updated details`);
+            navigate(-1);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
 
     const handleChange = (
         index: number,
@@ -121,13 +134,7 @@ const EditRecipe: React.FC = () => {
             instructions: [...prevState.instructions, { step: '' }],
         }));
     };
-    // const handleRemoveIngredient = (index: number) => {
-    //     setFormData((prevState: any) => {
-    //         const updatedIngredients = [...prevState.ingredients];
-    //         updatedIngredients.splice(index, 1);
-    //         return { ...prevState, ingredients: updatedIngredients };
-    //     });
-    // };
+
     const handleRemoveIngredient = (indexToRemove: number) => {
         setFormData(prevState => {
             const updatedIngredients = prevState.ingredients.filter((_, index) => index !== indexToRemove);
@@ -135,33 +142,18 @@ const EditRecipe: React.FC = () => {
         });
     };
 
-    // const handleRemoveInstruction = (index: number) => {
-    //     setFormData((prevState: any) => {
-    //         const updatedInstructions = [...prevState.instructions];
-    //         updatedInstructions.splice(index, 1);
-    //         return { ...prevState, instructions: updatedInstructions };
-    //     });
-    // };
+
     const handleRemoveInstruction = (indexToRemove: number) => {
         setFormData(prevState => {
             const updatedInstructions = prevState.instructions.filter((_, index) => index !== indexToRemove);
             return { ...prevState, instructions: updatedInstructions };
         });
     };
+
     const goBack = () => {
-        navigate(-1); // Go back to the previous page in history
+        navigate(-1);
     };
-    const apiUrl = 'http://localhost:5050/api/v1';
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post(`${apiUrl}/addrecipe`, formData);
-            navigate("/Reciperave/Confirm")
-            console.log('Recipe created:', response.data);
-        } catch (error) {
-            console.error('Error creating recipe:', error);
-        }
-    };
+
 
     return (
         <>{
@@ -171,7 +163,7 @@ const EditRecipe: React.FC = () => {
                         <h1 className="font-bold text-2xl text-[#03383F] ">Add a New Recipe</h1>
                         <div className="h-1 w-20 bg-[rgb(3,56,63)] flex"></div>
                     </div>
-                    <form onSubmit={handleSubmit} className="flex w-3/4 flex-col bg-[#FFF] gap-5 items-center justify-center max-[500px]:w-11/12 max-[500px]:p-2 max-[786px]:w-11/12">
+                    <form onSubmit={updateUser} className="flex w-3/4 flex-col bg-[#FFF] gap-5 items-center justify-center max-[500px]:w-11/12 max-[500px]:p-2 max-[786px]:w-11/12">
                         <div className="flex items-end justify-center flex-col w-full gap-5">
                             <div className="flex flex-col gap-5 w-10/12 max-[500px]:w-full">
                                 <div className="h-px w-10/12 bg-[#03383F] flex my-5 max-[500px]:w-11/12"></div>
@@ -284,7 +276,7 @@ const EditRecipe: React.FC = () => {
                                 <div className="flex flex-col gap-3">
                                     <p className="text-xs">Tag Your Recipe as*</p>
                                     <div className="h-10 w-10/12 pr-2 bg-[#f6f6f6] flex flex-row items-center justify-between max-[500px]:w-11/12">
-                                        <input type="text" className="h-10 w-full bg-[#f6f6f6] outline-none p-4 text-[#03383F] text-sm placeholder:text-xs rounded " required placeholder="Meal Type*"
+                                        <input type="text" className="h-10 w-full bg-[#f6f6f6] outline-none p-4 text-[#03383F] text-sm placeholder:text-xs rounded " placeholder="Meal Type*"
                                             name="recipetag"
                                             value={formData.recipetag}
                                             onChange={e => handleChange(0, 'recipetag', e.target.value)}
