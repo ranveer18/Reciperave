@@ -6,13 +6,14 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose } from "react-icons/io5";
 import { FaCircleUser } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
+// import useDebou
 
-
-const Navbar = () => {
+const Navbar = ({ setSearchQuery }: any) => {
     const navRef = useRef<HTMLDivElement>(null);
     const [toggle, setToggle] = useState(false)
     const [isLogin, setIslogin] = useState(false)
     const [isOpen, setIsOpen] = useState(false);
+
 
 
     useEffect(() => {
@@ -68,6 +69,10 @@ const Navbar = () => {
         navigate('/Reciperave/logout');
     };
 
+    const handleInputChange = (event: any) => {
+        setSearchQuery(event.target.value);
+    };
+
 
     return (
         <>
@@ -92,7 +97,12 @@ const Navbar = () => {
                 </ul>
                 <div className="search border-2 rounded flex items-center gap-4 px-2 py-1">
                     <FaSearch />
-                    <input type="text" name="" id="" placeholder="Search Your Recipe" className="focus:outline-none text-sm h-6 bg-inherit" />
+
+
+                    <input type="text" name="" id=""
+                        onChange={handleInputChange}
+                        placeholder="Search Your Recipe" className="focus:outline-none text-sm h-6 bg-inherit" />
+
                 </div>
                 <Link to={isLogin ? "/Reciperave/addrecipe" : "/Reciperave/login"}>
                     <button className="cursor-pointer bg-[#FFBC3B] h-8 w-32 rounded"> + Add Recipe</button>

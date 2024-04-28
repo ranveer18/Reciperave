@@ -60,3 +60,136 @@ body {
   /* align-self: flex-start; */
   gap: 15px;
 }
+
+
+/* Loader  */
+
+
+.body {
+  width: 100vw;
+  height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: black; */
+}
+
+.parent {
+  width: 100px;
+  height: 100px;
+  color: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+}
+
+.parent h4 {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  letter-spacing: 4px;
+
+}
+
+.child-conatiner:nth-child(1) {
+  z-index: 10;
+  animation: loading 3s ease-in-out 0.1s normal infinite;
+}
+
+.child-conatiner:nth-child(2) {
+  z-index: 9;
+  animation: loading 3s ease-in-out 0.2s normal infinite;
+}
+
+.child-conatiner:nth-child(3) {
+  z-index: 8;
+  animation: loading 3s ease-in-out 0.3s normal infinite;
+}
+
+.child-conatiner:nth-child(4) {
+  z-index: 7;
+  animation: loading 3s ease-in-out 0.4s normal infinite;
+}
+
+.child-conatiner:nth-child(5) {
+  z-index: 6;
+  animation: loading 3s ease-in-out 0.5s normal infinite;
+}
+
+.child {
+  width: 5px;
+  height: 10px;
+  position: absolute;
+  border-radius: 50%;
+}
+
+.wrapper>:nth-child(1)>.child {
+  height: 10px;
+  width: 10px;
+  background-color: #03383F;
+}
+
+.wrapper>:nth-child(2)>.child {
+  width: 8px;
+  height: 8px;
+  background-color: #265073;
+}
+
+.wrapper>:nth-child(3)>.child {
+  width: 6px;
+  height: 6px;
+  background-color: #2D9596;
+  /* background-color: #9AD0C2; */
+}
+
+.wrapper>:nth-child(4)>.child {
+  width: 4px;
+  height: 4px;
+  background-color: #708E8E;
+}
+
+.wrapper>:nth-child(5)>.child {
+  width: 2px;
+  height: 2px;
+  background-color: #8ca9a9;
+}
+
+
+@keyframes loading {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-720deg);
+  }
+
+}
+
+/* Pagination button styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination li {
+  list-style: none;
+  margin-right: 8px;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.pagination li:hover {
+  background-color: #ddd;
+}
+
+.pagination li.active {
+  background-color: #007bff;
+  color: #fff;
+}

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import Loader from "./Loader";
 const Logout = () => {
     const apiUrl = 'http://localhost:5050/api/v1';
 
@@ -25,7 +25,9 @@ const Logout = () => {
                 console.log(err);
             });
     });
-    return <div>Logout</div>;
+    return <>
+        <Loader />
+    </>;
 };
 
 export default Logout;

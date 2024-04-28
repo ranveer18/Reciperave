@@ -7,6 +7,7 @@ import Navbar from "../Components/Navbar"
 import { LuUpload } from "react-icons/lu";
 import cardphoto from "../images/cardphoto.svg"
 import axios from 'axios';
+import Loader from '../Components/Loader';
 
 
 
@@ -18,6 +19,7 @@ const UserPage: React.FC = () => {
     const [recipeData, setRecipeData] = useState<any>({})
     const [singleuserData, setSingleUserData] = useState<any>([])
     const [userid, setUserId] = useState<any>("");
+    const [isLoading, setIsLoading] = useState(true);
 
     const user = {
         bio: 'A passionate cook who loves sharing recipes with the world!',
@@ -71,6 +73,7 @@ const UserPage: React.FC = () => {
             const filteredData = data.filter((item: any) => item.userId === userid)
             setRecipeData(filteredData);
             setSingleUserData(filteredData[0])
+            setIsLoading(false);
 
 
             if (ress.status === 401 || !data) {
@@ -160,7 +163,7 @@ const UserPage: React.FC = () => {
 
                     <h1 className="text-2xl font-semibold mt-4">{userData.name}</h1>
                     <p className="text-gray-600">{userData.email}</p>
-                    <p className="text-gray-600">Recipe: {recipeData.length}</p>
+                    <p className="text-gray-600">Your Recipe: {recipeData.length}</p>
                 </div>
                 <div className="mt-8">
                     <h2 className="text-lg font-semibold">Bio</h2>
@@ -173,36 +176,39 @@ const UserPage: React.FC = () => {
                 >
                     <span>Save Profile</span>
                 </button>
-                <div className="mt-8">
-                    <h2 className="text-lg font-semibold">Your Recipes</h2>
+                <div className="m-8">
+                    {/* <h2 className="text-lg font-semibold">Your Recipes</h2> */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4 ">
+                        {isLoading ? <Loader /> :
+                            (
+                                Array.isArray(recipeData) && recipeData.map((recipe: any) => (<div key={recipe._id} className="bg-[#FEF8E6] rounded-lg shadow-md p-4">
+                                    <img
+                                        src={cardphoto}
+                                        alt={recipe.title}
+                                        className="w-full h-40 object-cover rounded-md mb-4"
+                                    />
 
-                        {Array.isArray(recipeData) && recipeData.map((recipe: any) => (<div key={recipe._id} className="bg-[#FEF8E6] rounded-lg shadow-md p-4">
-                            <img
-                                src={cardphoto}
-                                alt={recipe.title}
-                                className="w-full h-40 object-cover rounded-md mb-4"
-                            />
 
-
-                            <h3 className="text-lg font-semibold">{recipe.title}</h3>
-                            <p className="text-gray-600">{recipe.desc}</p>
-                            <div className="mt-4 flex justify-between">
-                                <button
-                                    onClick={() => handleEditRecipe(recipe._id, singleuserData.userName)}
-                                    className=" hover:bg-blue-500 hover:text-[#fff] border border-blue-500 font-bold h-8 w-20  rounded mr-2"
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    onClick={() => handleDeleteRecipe(recipe._id)}
-                                    className="hover:bg-red-700 hover:text-[#fff] border border-red -500 font-bold h-8 w-20 rounded"
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        </div>
-                        ))}
+                                    <h3 className="text-lg font-semibold">{recipe.title}</h3>
+                                    <p className="text-gray-600">{recipe.desc}</p>
+                                    <div className="mt-4 flex justify-between">
+                                        <button
+                                            onClick={() => handleEditRecipe(recipe._id, singleuserData.userName)}
+                                            className=" hover:bg-blue-500 hover:text-[#fff] border border-blue-500 font-bold h-8 w-20  rounded mr-2"
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            onClick={() => handleDeleteRecipe(recipe._id)}
+                                            className="hover:bg-red-700 hover:text-[#fff] border border-red -500 font-bold h-8 w-20 rounded"
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                </div>
+                                ))
+                            )
+                        }
                     </div>
                 </div>
 

@@ -11,7 +11,7 @@ import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import copy from "copy-to-clipboard";
 import { useReactToPrint } from "react-to-print";
-
+import Loader from "./Loader";
 
 const Singlerecipe = () => {
 
@@ -20,6 +20,7 @@ const Singlerecipe = () => {
     const { id } = useParams();
     const [recipe, setRecipe] = useState<any>(null);
     const [copied, setCopied] = useState(false);
+    const [isLoding, setIsLodingd] = useState(true);
     const [checkedItems, setCheckedItems] = useState<any>({});
 
     const apiUrl = 'http://localhost:5050/api/v1';
@@ -34,6 +35,7 @@ const Singlerecipe = () => {
                 }
                 const data = await response.json();
                 setRecipe(data);
+                setIsLodingd(false);
 
             } catch (error) {
                 console.error('Error fetching recipe:', error);
@@ -82,7 +84,7 @@ const Singlerecipe = () => {
 
     return (
         <>
-            {recipe ? (
+            {isLoding ? <Loader /> : (
                 <div className="flex flex-col" ref={Componentref}>
                     <div className="w-full bg-[#FDF2cc] h-screen flex max-[500px]:flex-col">
                         <div className="w-2/4 h-full relative  max-[500px]:w-full">
@@ -152,8 +154,10 @@ const Singlerecipe = () => {
                     <div className="w-full bg-[#fbfaf4] h-auto flex flex-col text-[#03383F] py-20 px-40 gap-20 max-[786px]:px-16 max-[500px]:h-auto max-[500px]:px-5">
                         <h1 className="text-4xl font-bold text-[#03383F]">Methods</h1>
                         {recipe.instructions.map((event: any, index: any) => {
+                            const isEven = index % 2 === 0;
                             return (
-                                <div className="flex items-center gap-40 max-[500px]:gap-5" key={index}>
+                                <div className={`flex items-center justify-evenly gap-40 max-[500px]:gap-5 ${isEven ? 'flex-row-reverse' : ''
+                                    }`} key={index}>
                                     <img src={method} className="w-40 h-40 max-[500px]:w-16" alt="" />
                                     <div className="flex flex-col gap-3">
                                         <span className="text-xl font-semibold">Step {index + 1}</span>
@@ -164,8 +168,6 @@ const Singlerecipe = () => {
                         })}
                     </div>
                 </div>
-            ) : (
-                <p>Loading...</p>
             )}
         </>
     )
