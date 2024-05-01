@@ -11,7 +11,6 @@ const Loginform = () => {
         setInputs((values) => ({ ...values, [name]: value }));
     }
     const apiUrl = import.meta.env.VITE_API_URL;
-    // const apiUrl = "https://reciperave.onrender.com/api/v1"
 
     const handleLogin = async (event: any): Promise<void> => {
         event.preventDefault()

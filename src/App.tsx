@@ -15,7 +15,7 @@ const App = () => {
     <>
       <Router>
         <Routes>
-          <Route path="/Reciperave" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/Reciperave/addrecipe" element={<Addrecipe />} />
           <Route path="/Reciperave/login" element={<Login />} />
           <Route path="/Reciperave/Signup" element={<Signup />} />
