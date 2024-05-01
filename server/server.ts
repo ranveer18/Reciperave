@@ -11,7 +11,7 @@ import cookieParser from "cookie-parser"
 
 const app = express();
 
-// app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors({ origin: 'https://ranveer18.github.io/Reciperave/', credentials: true }));
 // app.use(cors({ origin: '*', credentials: true }));
 
 

@@ -16,9 +16,9 @@ const Contentcard = ({ searchQuery }: any) => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const recipesPerPage = 10;
-  // const apiUrl = import.meta.env.VITE_API_URL;
+  const apiUrl = import.meta.env.VITE_API_URL;
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
-  const apiUrl = "https://reciperave.onrender.com/api/v1"
+  // const apiUrl = "https://reciperave.onrender.com/api/v1"
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
