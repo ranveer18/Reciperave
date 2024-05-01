@@ -27,7 +27,7 @@ const Signup = () => {
             });
             if (response.ok) {
                 console.log('Registration successful');
-                navigate("/Reciperave/login")
+                navigate("/login")
             } else {
                 console.error('Registration failed:', await response.text());
             }
@@ -43,7 +43,7 @@ const Signup = () => {
                     <form className="bg-[#fff] w-10/12 h-auto rounded flex flex-col items-center justify-center p-16 max-[500px]:p-5 max-[500px]:w-11/12 max-[768px]:px-6  max-[768px]:py-10 z-10" action="" method="post" onSubmit={handleRegister}>
                         <h1 className="text-3xl font-bold tracking-wider">Create your account</h1>
 
-                        <h4 className="text-xm">Already have an account? <Link to="/Reciperave/login"><span className="text-[#F9972F] cursor-pointer">Sign In</span></Link></h4>
+                        <h4 className="text-xm">Already have an account? <Link to="/login"><span className="text-[#F9972F] cursor-pointer">Sign In</span></Link></h4>
                         <div className="w-3/4 flex flex-col items-center gap-1 mt-5 max-[768px]:w-full">
                             <label htmlFor="name" className="flex place-self-start">Full Name<span className="text-red-700"> *</span></label>
                             <input type="text" className="h-10 w-full bg-[#f6f6f6] outline-none p-4 text-[#03383F] text-sm placeholder:text-xs rounded" id="name" required placeholder="Tony Stark"

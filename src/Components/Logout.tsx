@@ -17,7 +17,7 @@ const Logout = () => {
             credentials: "include",
         })
             .then((res) => {
-                navigate("/Reciperave/");
+                navigate("/Reciperave");
                 if (res.status !== 200) {
                     console.log("error");
 

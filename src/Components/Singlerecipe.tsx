@@ -48,7 +48,7 @@ const Singlerecipe = () => {
     }, []);
 
     const copyToClipboard = () => {
-        let link = `${apiUrl}${id}`
+        let link = `https://reciperave.onrender.com/${id}`
         let isCopy = copy(link);
         if (isCopy) {
             setCopied(true)

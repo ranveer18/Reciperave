@@ -145,7 +145,7 @@ const Navbar = ({ setSearchQuery }: any) => {
                                 <div className="py-1" role="none">
                                     <button
                                         onClick={() => {
-                                            navigate('/Reciperave/UserPage')
+                                            navigate('/UserPage')
                                             setIsOpen(false);
                                         }}
                                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"

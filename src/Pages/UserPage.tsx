@@ -91,7 +91,7 @@ const UserPage: React.FC = () => {
 
 
     const handleEditRecipe = (recipeId: string, name: string) => {
-        navigate(`/Reciperave/${name}/editrecipe/${recipeId}`)
+        navigate(`/${name}/editrecipe/${recipeId}`)
     };
     const deleteRecipe = async (id: any) => {
         try {
