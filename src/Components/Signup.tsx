@@ -11,7 +11,7 @@ const Signup = () => {
         setInputs((prev) => ({ ...prev, [name]: value }));
         setisChecked(checked)
     }
-    const apiUrl = 'http://localhost:5050/api/v1';
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const handleRegister = async (event: any): Promise<void> => {
         event.preventDefault()

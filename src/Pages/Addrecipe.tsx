@@ -11,10 +11,10 @@ const Addrecipe = () => {
   const navigate = useNavigate();
 
   const verifyUser = async () => {
-    const apiUrl = 'http://localhost:5050/api/v1/admin';
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     try {
-      const ress = await fetch(apiUrl, {
+      const ress = await fetch(`${apiUrl}/admin`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -24,7 +24,6 @@ const Addrecipe = () => {
       });
       const data = await ress.json();
       setUserData(data)
-      // console.log(data);
 
       if (ress.status === 401 || !data) {
         const error = new Error();

@@ -8,7 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 const EditRecipe: React.FC = () => {
 
     const navigate = useNavigate();
-    const apiUrl = 'http://localhost:5050/api/v1';
+    const apiUrl = import.meta.env.VITE_API_URL;
     const id = useParams();
     const [loading, setloading] = useState(true)
     const [formData, setFormData] = useState({
@@ -42,7 +42,6 @@ const EditRecipe: React.FC = () => {
 
                 });
                 const data = await ress.json();
-                console.log(data);
 
 
                 if (ress.status === 401 || !data) {
@@ -90,8 +89,7 @@ const EditRecipe: React.FC = () => {
     const updateUser = async (e: any) => {
         e.preventDefault();
         try {
-            const data = await axios.put(`${apiUrl}/updaterecipes/${id.id} `, formData);
-            console.log('Recipe updated:', data.data);
+            await axios.put(`${apiUrl}/updaterecipes/${id.id} `, formData);
 
             alert(`Updated details`);
             navigate(-1);

@@ -9,10 +9,10 @@ const EditrecipePage = () => {
     const verifyUser = async () => {
         const navigate = useNavigate();
 
-        const apiUrl = 'http://localhost:5050/api/v1/admin';
+        const apiUrl = import.meta.env.VITE_API_URL;
 
         try {
-            const ress = await fetch(apiUrl, {
+            const ress = await fetch(`${apiUrl}/admin`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

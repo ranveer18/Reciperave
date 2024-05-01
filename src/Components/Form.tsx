@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Form: React.FC<{ name: string; email: string; id: string }> = ({ name, email, id }) => {
     const navigate = useNavigate();
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const [formData, setFormData] = useState({
         userName: name,
@@ -81,13 +82,11 @@ const Form: React.FC<{ name: string; email: string; id: string }> = ({ name, ema
         });
     };
 
-    const apiUrl = 'http://localhost:5050/api/v1';
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${apiUrl}/addrecipe`, formData);
+            await axios.post(`${apiUrl}/addrecipe`, formData);
             navigate("/Reciperave/Confirm")
-            console.log('Recipe created:', response.data);
         } catch (error) {
             console.error('Error creating recipe:', error);
         }

@@ -21,6 +21,7 @@ const UserPage: React.FC = () => {
     const [userid, setUserId] = useState<any>("");
     const [isLoading, setIsLoading] = useState(true);
 
+    const apiUrl = import.meta.env.VITE_API_URL;
     const user = {
         bio: 'A passionate cook who loves sharing recipes with the world!',
         avatarUrl: 'https://via.placeholder.com/150', // Placeholder image URL
@@ -29,7 +30,7 @@ const UserPage: React.FC = () => {
     useEffect(() => {
         const checkLogin = async () => {
             try {
-                const res = await fetch(`${apiUrl}/admin/`, {
+                const res = await fetch(`${apiUrl}/admin`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -57,7 +58,6 @@ const UserPage: React.FC = () => {
     useEffect(() => {
         verifyUser();
     }, []);
-    const apiUrl = 'http://localhost:5050/api/v1';
     const verifyUser = async () => {
         try {
             const ress = await fetch(`${apiUrl}/recipe/`, {
@@ -89,7 +89,6 @@ const UserPage: React.FC = () => {
 
 
     const handleEditRecipe = (recipeId: string, name: string) => {
-        console.log(`Editing recipe with ID: ${recipeId}`);
         navigate(`/Reciperave/${name}/editrecipe/${recipeId}`)
     };
     const deleteRecipe = async (id: any) => {

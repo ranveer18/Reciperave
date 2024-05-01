@@ -14,6 +14,7 @@ const Navbar = ({ setSearchQuery }: any) => {
     const [isLogin, setIslogin] = useState(false)
     const [isOpen, setIsOpen] = useState(false);
 
+    const apiUrl = import.meta.env.VITE_API_URL;
 
 
     useEffect(() => {
@@ -38,11 +39,10 @@ const Navbar = ({ setSearchQuery }: any) => {
     }, [])
 
 
-    const apiUrl = 'http://localhost:5050/api/v1';
     useEffect(() => {
         const checkLogin = async () => {
             try {
-                const res = await fetch(`${apiUrl}/admin/`, {
+                const res = await fetch(`${apiUrl}/admin`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

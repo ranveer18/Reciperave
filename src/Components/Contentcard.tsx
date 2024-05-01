@@ -8,16 +8,17 @@ import { useState, useEffect } from "react";
 import Loader from "./Loader";
 import useDebounce from './useDebounce';
 
+
+
 const Contentcard = ({ searchQuery }: any) => {
   const [recipe, setRecipe] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const recipesPerPage = 10;
-
-  const apiUrl = 'http://localhost:5050/api/v1';
+  // const apiUrl = import.meta.env.VITE_API_URL;
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
-
+  const apiUrl = "https://reciperave.onrender.com/api/v1"
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
@@ -70,9 +71,6 @@ const Contentcard = ({ searchQuery }: any) => {
   const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
   const currentRecipes = (debouncedSearchQuery ? searchResults : recipe).slice(indexOfFirstRecipe, indexOfLastRecipe);
 
-  // const paginate = (pageNumber: number) => {
-  //   setCurrentPage(pageNumber);
-  // };
 
   const prevPage = () => {
     if (currentPage > 1) {

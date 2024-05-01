@@ -7,8 +7,6 @@ import Contentinfo from "./Pages/Contentinfo";
 import UserPage from "./Pages/UserPage";
 import EditRecipe from "./Components/EditRecipe";
 import Logout from "./Components/Logout";
-// import Test from "./Components/DynamicInputFields";
-Addrecipe
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 

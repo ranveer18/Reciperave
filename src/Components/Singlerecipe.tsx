@@ -23,7 +23,7 @@ const Singlerecipe = () => {
     const [isLoding, setIsLodingd] = useState(true);
     const [checkedItems, setCheckedItems] = useState<any>({});
 
-    const apiUrl = 'http://localhost:5050/api/v1';
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         const fetchRecipe = async () => {
@@ -46,7 +46,7 @@ const Singlerecipe = () => {
     }, []);
 
     const copyToClipboard = () => {
-        let link = `http://localhost:5173/Reciperave/${id}`
+        let link = `${apiUrl}${id}`
         let isCopy = copy(link);
         if (isCopy) {
             setCopied(true)

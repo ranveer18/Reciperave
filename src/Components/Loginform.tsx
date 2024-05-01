@@ -1,7 +1,6 @@
 import { useState } from "react"
 import loginPhoto from "../images/login.jpg"
 import { Link, useNavigate } from "react-router-dom"
-import Cookies from 'js-cookie';
 
 const Loginform = () => {
     const navigate = useNavigate();
@@ -11,7 +10,8 @@ const Loginform = () => {
         const value = event.target.value;
         setInputs((values) => ({ ...values, [name]: value }));
     }
-    const apiUrl = 'http://localhost:5050/api/v1';
+    const apiUrl = import.meta.env.VITE_API_URL;
+    // const apiUrl = "https://reciperave.onrender.com/api/v1"
 
     const handleLogin = async (event: any): Promise<void> => {
         event.preventDefault()
@@ -26,7 +26,6 @@ const Loginform = () => {
                 credentials: 'include',
             });
             if (response.ok) {
-                console.log('Login successful');
                 navigate("/Reciperave/addrecipe")
             } else {
                 console.error('Login failed:', await response.text());
