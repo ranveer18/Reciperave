@@ -21,7 +21,9 @@ const UserPage: React.FC = () => {
     const [userid, setUserId] = useState<any>("");
     const [isLoading, setIsLoading] = useState(true);
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+    // const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = "https://reciperave.onrender.com/api/v1"
+
     const user = {
         bio: 'A passionate cook who loves sharing recipes with the world!',
         avatarUrl: 'https://via.placeholder.com/150', // Placeholder image URL

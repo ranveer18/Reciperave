@@ -23,7 +23,9 @@ const Singlerecipe = () => {
     const [isLoding, setIsLodingd] = useState(true);
     const [checkedItems, setCheckedItems] = useState<any>({});
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+    // const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = "https://reciperave.onrender.com/api/v1"
+
 
     useEffect(() => {
         const fetchRecipe = async () => {

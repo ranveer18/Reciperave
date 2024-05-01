@@ -8,7 +8,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 const EditRecipe: React.FC = () => {
 
     const navigate = useNavigate();
-    const apiUrl = import.meta.env.VITE_API_URL;
+    // const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = "https://reciperave.onrender.com/api/v1"
+
     const id = useParams();
     const [loading, setloading] = useState(true)
     const [formData, setFormData] = useState({

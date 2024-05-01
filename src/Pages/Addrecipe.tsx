@@ -11,7 +11,9 @@ const Addrecipe = () => {
   const navigate = useNavigate();
 
   const verifyUser = async () => {
-    const apiUrl = import.meta.env.VITE_API_URL;
+    // const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = "https://reciperave.onrender.com/api/v1"
+
 
     try {
       const ress = await fetch(`${apiUrl}/admin`, {

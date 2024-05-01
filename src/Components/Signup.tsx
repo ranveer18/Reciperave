@@ -11,7 +11,9 @@ const Signup = () => {
         setInputs((prev) => ({ ...prev, [name]: value }));
         setisChecked(checked)
     }
-    const apiUrl = import.meta.env.VITE_API_URL;
+    // const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = "https://reciperave.onrender.com/api/v1"
+
 
     const handleRegister = async (event: any): Promise<void> => {
         event.preventDefault()
