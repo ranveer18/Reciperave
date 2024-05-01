@@ -11,7 +11,7 @@ import cookieParser from "cookie-parser"
 
 const app = express();
 
-app.use(cors({ origin: 'https://reciperaves.onrender.com', credentials: true }));
+// app.use(cors({ origin: 'https://reciperaves.onrender.com', credentials: true }));
 
 
 app.use(cookieParser());
@@ -20,7 +20,11 @@ app.use('/api/v1', authRoutes);
 app.use('/api/v1', recipeRoutes);
 app.get("/api/v1/admin", Authenticate,admin,);
 app.get("/api/v1/logout", Authenticate,logout);
-
+app.use(express.static("../dist"));
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../dist"));
+  });
 
 const port = process.env.PORT || 5000;
 const start = async () => {

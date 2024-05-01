@@ -27,7 +27,7 @@ const Loginform = () => {
                 credentials: 'include',
             });
             if (response.ok) {
-                navigate("/Reciperave/addrecipe")
+                navigate("/addrecipe")
             } else {
                 console.error('Login failed:', await response.text());
             }

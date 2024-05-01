@@ -51,7 +51,7 @@ const EditRecipe: React.FC = () => {
                     console.log(error);
                 }
             } catch (error) {
-                navigate("/Reciperave");
+                navigate("/");
                 console.log(error);
             }
         };

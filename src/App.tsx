@@ -16,14 +16,14 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/Reciperave/addrecipe" element={<Addrecipe />} />
-          <Route path="/Reciperave/login" element={<Login />} />
-          <Route path="/Reciperave/Signup" element={<Signup />} />
-          <Route path="/Reciperave/:id" element={<Contentinfo />} />
-          <Route path="/Reciperave/UserPage" element={<UserPage />} />
-          <Route path="/Reciperave/:id/editrecipe/:id" element={< EditRecipe />} />
-          <Route path="/Reciperave/Confirm" element={<Confirm />} />
-          <Route path="/Reciperave/logout" element={<Logout />} />
+          <Route path="/addrecipe" element={<Addrecipe />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/Signup" element={<Signup />} />
+          <Route path="/:id" element={<Contentinfo />} />
+          <Route path="/UserPage" element={<UserPage />} />
+          <Route path="/:id/editrecipe/:id" element={< EditRecipe />} />
+          <Route path="/Confirm" element={<Confirm />} />
+          <Route path="/logout" element={<Logout />} />
         </Routes>
       </Router>
     </>

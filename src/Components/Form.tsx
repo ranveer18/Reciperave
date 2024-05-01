@@ -86,7 +86,7 @@ const Form: React.FC<{ name: string; email: string; id: string }> = ({ name, ema
         e.preventDefault();
         try {
             await axios.post(`${apiUrl}/addrecipe`, formData);
-            navigate("/Reciperave/Confirm")
+            navigate("/Confirm")
         } catch (error) {
             console.error('Error creating recipe:', error);
         }

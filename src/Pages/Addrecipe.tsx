@@ -32,7 +32,7 @@ const Addrecipe = () => {
         console.log(error);
       }
     } catch (error) {
-      navigate("/Reciperave");
+      navigate("/");
       console.log(error);
     }
   };

@@ -46,7 +46,7 @@ const UserPage: React.FC = () => {
                 setUserId(data._id)
 
             } catch (error) {
-                navigate("/Reciperave");
+                navigate("/");
                 console.log(error);
             }
         }

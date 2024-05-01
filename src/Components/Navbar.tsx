@@ -68,7 +68,7 @@ const Navbar = ({ setSearchQuery }: any) => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        navigate('/Reciperave/logout');
+        navigate('/logout');
     };
 
     const handleInputChange = (event: any) => {
@@ -88,7 +88,7 @@ const Navbar = ({ setSearchQuery }: any) => {
                 </div>
                 <ul className={toggle ? "navbar-ul" : "flex gap-7 cursor-pointer"}>
                     <li>
-                        <Link to="/Reciperave">
+                        <Link to="/">
                             Recipie
                         </Link>
                     </li>
@@ -106,7 +106,7 @@ const Navbar = ({ setSearchQuery }: any) => {
                         placeholder="Search Your Recipe" className="focus:outline-none text-sm h-6 bg-inherit" />
 
                 </div>
-                <Link to={isLogin ? "/Reciperave/addrecipe" : "/Reciperave/login"}>
+                <Link to={isLogin ? "/addrecipe" : "/login"}>
                     <button className="cursor-pointer bg-[#FFBC3B] h-8 w-32 rounded"> + Add Recipe</button>
                 </Link>
                 {isLogin ?

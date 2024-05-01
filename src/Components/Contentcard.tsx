@@ -98,7 +98,7 @@ const Contentcard = ({ searchQuery }: any) => {
               {currentRecipes.map((event: any, index: any) => (
                 <div className="w-96 h-auto flex justify-center items-center flex-col" key={index}>
                   <div className="image-container w-96 h-96 rounded bg-[#FDF2cc] flex justify-center items-center hover:rounded-3xl max-[500px]:w-72 max-[786px]:h-72">
-                    <Link to={`/Reciperave/${event._id}`}>
+                    <Link to={`/${event._id}`}>
                       <img src={cardphoto} alt="" className="w-96 h-96 rounded max-[500px]:w-72 max-[786px]:h-72" />
                     </Link>
                   </div>
